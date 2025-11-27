@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Générateur Signature XVAR - Premium</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{
+    --bg-1:#1b1f28;
+    --card-bg:#ffffff;
+    --accent:#1b1f28;
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+  }
+
+  body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(135deg, var(--bg-1), var(--bg-1));
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  /* wrapper qui centre verticalement/horizontalement */
+  #centerWrapper {
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    box-sizing:border-box;
+  }
+
+  /* conteneur principal (après login) */
+  #appContainer {
+    display:none; /* caché au départ */
+    width:100%;
+    min-height:100vh;
+    padding:40px 20px;
+    box-sizing:border-box;
+    display:flex;
+    justify-content:center;
+  }
+
+  /* layout interne pour formulaire + signature */
+  .stack {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+    width:100%;
+    max-width:900px; /* largeur globale souhaitée */
+    box-sizing:border-box;
+  }
+
+  /* carte blanche */
+  .card {
+    background: var(--card-bg);
+    padding: 28px;
+    border-radius: 16px;
+    width:100%;
+    max-width:900px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+    box-sizing:border-box;
+  }
+
+  .card-small {
+    max-width:520px;
+  }
+
+  .card h2, .card h3 {
+    text-align: center;
+    margin-bottom: 14px;
+    font-weight: 700;
+    color: #0d1c2a;
+  }
+
+  input {
+    padding: 12px;
+    width: 100%;
+    margin: 10px 0 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: 0.18s;
+    box-sizing:border-box;
+  }
+
+  input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(27,31,40,0.08);
+    outline: none;
+  }
+
+  button {
+    background: var(--accent);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: 0.2s;
+    margin-top: 6px;
+  }
+
+  button:hover { transform: translateY(-2px); }
+
+  /* signature preview table wrapper */
+  #signaturePreview table { width:100%; }
+
+  /* responsive */
+  @media (max-width:640px){
+    .card { padding:18px; border-radius:12px; }
+    .stack { padding:0 12px; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ========== WRAPPER CENTRAGE (form password) ========== -->
+<div id="centerWrapper">
+  <div id="passwordPage" class="card card-small" style="text-align:center;">
+      <img src="https://i.postimg.cc/nzZMSQTK/logo.png" width="85" style="display:block; margin:0 auto 12px;">
+      <h2>🔐 Accès</h2>
+
+      <label style="display:block; text-align:left; font-weight:600; margin-bottom:6px;">Mot de passe :</label>
+      <input id="passwordInput" type="password" placeholder="Entrez le mot de passe...">
+
+      <button onclick="checkPassword()">Se connecter</button>
+
+      <p id="errorMsg" style="color:red; text-align:center; display:none; margin-top:10px;">
+          ❌ Mot de passe incorrect
+      </p>
+  </div>
+</div>
+
+<!-- ========== APP CONTAINER (affiché après connexion) ========== -->
+<div id="appContainer">
+  <div class="stack">
+
+    <!-- Formulaire -> carte plus large -->
+    <div id="formPage" class="card" style="display:none;">
+      <img src="https://i.postimg.cc/nzZMSQTK/logo.png" width="85" style="display:block; margin:0 auto 12px;">
+      <h2>Générateur de signature XVAR</h2>
+
+      <label style="display:block; margin-top:6px; font-weight:600;">Prénom :</label>
+      <input id="prenom" type="text" placeholder="Prénom...">
+
+      <label style="display:block; font-weight:600;">Nom :</label>
+      <input id="nom" type="text" placeholder="Nom...">
+
+      <label style="display:block; font-weight:600;">Fonction :</label>
+      <input id="fonction" type="text" placeholder="Fonction...">
+
+      <button onclick="generateSignature()">✨ Générer la signature</button>
+    </div>
+
+    <!-- Signature preview -->
+    <div id="signatureSection" class="card" style="display:none;">
+      <h3>Votre signature :</h3>
+      <div id="signaturePreview" style="overflow:auto;"></div>
+      <div style="height:12px"></div>
+      <button onclick="copySignature()">📋 Copier la signature</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ---------------------------------------------------
+   GAMME: centrer password puis afficher appContainer
+--------------------------------------------------- */
+function checkPassword() {
+    const pwd = document.getElementById("passwordInput").value;
+
+    if (pwd === "admin") {
+        // cacher le wrapper centré (mot de passe)
+        document.getElementById("centerWrapper").style.display = "none";
+
+        // afficher l'app (formulaire + signature)
+        document.getElementById("formPage").style.display = "block";
+        document.getElementById("appContainer").style.display = "flex";
+    } else {
+        const e = document.getElementById("errorMsg");
+        e.style.display = "block";
+        setTimeout(()=> e.style.display = "none", 2500);
+    }
+}
+
+/* ---------------------------------------------------
+   SIGNATURE HTML (alignement robuste)
+--------------------------------------------------- */
+function signatureHTML() {
+    const prenom = document.getElementById("prenom").value || "Prénom";
+    const nom = document.getElementById("nom").value || "Nom";
+    const fonction = document.getElementById("fonction").value || "Fonction";
+
+    return `
+<table role="presentation" cellpadding="0" cellspacing="0" style="font-family:Arial, sans-serif; width:600px; border-radius:22px;"><td>
+<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;">
+        <tr>
+      <td style="width:120px; text-align:center; vertical-align:middle; padding:10px;">
+        <img src="https://i.postimg.cc/nzZMSQTK/logo.png" width="90" style="display:block;">
+      </td>
+
+<td style="background:#0d1c2a; width:60%; padding:10px 30px; border-radius:20px; vertical-align:middle;">
+            <div style="font-size:20px; font-weight:700; color:#fff; margin-bottom:6px;">
+            ${prenom} ${nom}
+        </div>
+        <div style="margin-bottom:10px;">
+            <span style="background:#e4ff59; color:#1b1f28; font-size:12px; padding:6px 12px; border-radius:12px;">
+                ${fonction}
+            </span>
+        </div>
+        <table cellpadding="0" cellspacing="0" style="color:#d7e1ea; font-size:12px; white-space:nowrap;">
+            <tr>
+                <td style="padding-right:12px;">📞 +212 600 043 725</td>
+                <td style="padding-right:12px;">🌐 www.xvar.ma</td>
+                <td>📍 Casablanca, Maroc</td>
+            </tr>
+        </table>
+      </td>
+        <td style="width:15px;"></td>
+
+<td style="background:#0d1c2a; width:60px; text-align:center; vertical-align:middle; border-radius:20px; padding:10px 5px;">
+            <table cellpadding="0" cellspacing="8" style="background:#0d1c2a; padding:10px; border-radius:12px;">
+          <tr><td><a href="https://www.instagram.com/xvar.maroc/" target="_blank"><img src="https://i.postimg.cc/W1w4F4sG/instagram.png" ></a></td></tr>
+          <tr><td><a href="https://web.facebook.com/people/XVAR/61579889121205/" target="_blank"><img src="https://i.postimg.cc/nVWpCD7W/facebook.png" ></a></td></tr>
+          <tr><td><a href="https://www.linkedin.com/company/xvar-maroc/" target="_blank"><img src="https://i.postimg.cc/KjTGZG9m/linkedin.png" ></a></td></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</td>
+</tr>
+</table>`;
+}
+
+/* ---------------------------------------------------
+   GÉNÉRER SIGNATURE (affiche sous le formulaire)
+--------------------------------------------------- */
+function generateSignature() {
+    document.getElementById("signaturePreview").innerHTML = signatureHTML();
+    document.getElementById("signatureSection").style.display = "block";
+
+    // scroll vers la signature (optionnel, utile si la page est longue)
+    document.getElementById("signatureSection").scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+/* ---------------------------------------------------
+   COPIER SIGNATURE (sélection + copy)
+--------------------------------------------------- */
+function copySignature() {
+    const node = document.getElementById("signaturePreview");
+    if (!node) return;
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    try {
+      document.execCommand('copy');
+      sel.removeAllRanges();
+      alert('Signature copiée ! Colle-la dans Gmail.');
+    } catch (e) {
+      alert('Impossible de copier automatiquement. Sélectionne puis copie manuellement.');
+    }
+}
+</script>
+
+</body>
+</html>
