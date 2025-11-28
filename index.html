@@ -41,6 +41,16 @@
 
       <label>Fonction :</label>
       <input id="fonction" type="text" placeholder="Fonction...">
+     <label>Numéro :</label>
+<div style="display:flex; gap:8px;">
+  <select id="pays" style="padding:12px; border-radius:8px; border:1px solid #ccc;">
+    <option value="+212" selected>🇲🇦 (+212)</option>
+    <option value="+33">🇫🇷 (+33)</option>
+     </select>
+  <input id="numero" type="tel" placeholder="600 000 000" style="flex:1;">
+</div>
+
+
 
       <button onclick="generateSignature()">Générer la signature</button>
     </div>
@@ -75,6 +85,10 @@ function signatureHTML() {
     const prenom = document.getElementById("prenom").value || "Prénom";
     const nom = document.getElementById("nom").value || "Nom";
     const fonction = document.getElementById("fonction").value || "Fonction";
+const pays = document.getElementById("pays").value;
+const numero = document.getElementById("numero").value || "600 000 000";
+const numeroComplet = `${pays} ${numero}`;
+
 
     return `
 <table role="presentation" cellpadding="0" cellspacing="0" style="font-family:Arial; max-width:700px;">
@@ -90,15 +104,15 @@ function signatureHTML() {
        style="display:inline-block;">
 </td>
 
-
 <!-- Nom + Fonction + Contacts -->
 <td style="padding-right:10px; border-left:1px solid #e6e6e6; vertical-align:center;">
   <div style="padding-left:18px;">
     <div style="font-size:20px; font-weight:700; color:#111;">${prenom} ${nom}</div>
     <div style="font-size:14px; color:#666; margin-bottom:8px;">${fonction}</div>
-    <div style="font-size:9px;  color:#0D1C2A;">
+    <div style="font-size:9px; color:#0D1C2A;">
       📍 Casablanca, Maroc &nbsp; | &nbsp;
-      📞 +212 600 043 725 &nbsp; | &nbsp;
+      📞 ${numeroComplet} &nbsp; | &nbsp;
+
       🌐 www.xvar.ma
     </div>
   </div>
