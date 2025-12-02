@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Générateur Signature XVAR</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style> :root{ --bg-1:#1b1f28; --card-bg:#ffffff; --accent:#1b1f28; } html,body{ height:100%; margin:0; } body { font-family: 'Poppins', Arial, sans-serif; background: linear-gradient(135deg, var(--bg-1), var(--bg-1)); padding: 20px; min-height: 100vh; } /* wrapper qui centre verticalement/horizontalement */ #centerWrapper { width:100%; min-height:100vh; display:flex; justify-content:center; align-items:center; position:relative; box-sizing:border-box; } /* conteneur principal (après login) */ #appContainer { display:none; /* caché au départ */ width:100%; min-height:100vh; padding:40px 20px; box-sizing:border-box; display:flex; justify-content:center; } /* layout interne pour formulaire + signature */ .stack { display:flex; flex-direction:column; align-items:center; gap:20px; width:100%; max-width:900px; /* largeur globale souhaitée */ box-sizing:border-box; } /* carte blanche */ .card { background: var(--card-bg); padding: 28px; border-radius: 16px; width:100%; max-width:900px; box-shadow: 0 10px 35px rgba(0,0,0,0.15); box-sizing:border-box; } .card-small { max-width:520px; } .card h2, .card h3 { text-align: center; margin-bottom: 14px; font-weight: 700; color: #0d1c2a; } input { padding: 12px; width: 100%; margin: 10px 0 14px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; transition: 0.18s; box-sizing:border-box; } input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(27,31,40,0.08); outline: none; } button { background: var(--accent); color: white; padding: 12px 20px; border: none; border-radius: 10px; cursor: pointer; font-size: 16px; width: 100%; transition: 0.2s; margin-top: 6px; } button:hover { transform: translateY(-2px); } /* signature preview table wrapper */ #signaturePreview table { width:100%; } /* responsive */ @media (max-width:640px){ .card { padding:18px; border-radius:12px; } .stack { padding:0 12px; } } </style>
+</head>
+<body>
+
+<!-- WRAPPER mot de passe -->
+<div id="centerWrapper">
+  <div id="passwordPage" class="card" style="text-align:center;">
+      <img src="https://github.com/Imanboukhari/signature_xvar/raw/facaf574d7af4dab92a28cc7a6824fb43b9510cc/logo.png" width="85" style="display:block; margin:0 auto 12px;">
+      <h2>🔐 Accès</h2>
+
+      <label style="display:block; text-align:left; font-weight:600; margin-bottom:6px;">Mot de passe :</label>
+      <input id="passwordInput" type="password" placeholder="Entrez le mot de passe...">
+
+      <button onclick="checkPassword()">Se connecter</button>
+
+      <p id="errorMsg" style="color:red; text-align:center; display:none; margin-top:10px;">
+          ❌ Mot de passe incorrect
+      </p>
+  </div>
+</div>
+
+<!-- APP Container -->
+<div id="appContainer">
+  <div class="stack">
+
+    <!-- Formulaire -->
+    <div id="formPage" class="card" style="display:none;">
+      <h2>Générateur de signature XVAR</h2>
+
+      <label>Prénom :</label>
+      <input id="prenom" type="text" placeholder="Prénom...">
+
+      <label>Nom :</label>
+      <input id="nom" type="text" placeholder="Nom...">
+
+      <label>Fonction :</label>
+      <input id="fonction" type="text" placeholder="Fonction...">
+      <label>Adresse e-mail :</label>
+<input id="email" type="email" placeholder="exemple@xvar.ma">
+
+     <label>Numéro :</label>
+<div style="display:flex; gap:8px;">
+  <select id="pays" style="padding:12px; border-radius:8px; border:1px solid #ccc;">
+    <option value="+212" selected>🇲🇦 (+212)</option>
+    <option value="+33">🇫🇷 (+33)</option>
+     </select>
+  <input id="numero" type="tel" placeholder="600 000 000" style="flex:1;">
+</div>
+
+
+
+      <button onclick="generateSignature()">Générer la signature</button>
+    </div>
+
+    <!-- Signature preview -->
+    <div id="signatureSection" class="card" style="display:none; margin-top:20px;">
+      <h3>Votre signature :</h3>
+      <div id="signaturePreview"></div>
+      <button onclick="copySignature()">📋 Copier la signature</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* Vérification mot de passe */
+function checkPassword() {
+    const pwd = document.getElementById("passwordInput").value;
+    if (pwd === "admin") {
+        document.getElementById("centerWrapper").style.display = "none";
+        document.getElementById("formPage").style.display = "block";
+        document.getElementById("appContainer").style.display = "flex";
+    } else {
+        const e = document.getElementById("errorMsg");
+        e.style.display = "block";
+        setTimeout(()=> e.style.display = "none", 2500);
+    }
+}
+function signatureHTML() {
+    const prenom = document.getElementById("prenom").value || "Prénom";
+    const nom = document.getElementById("nom").value || "Nom";
+    const fonction = document.getElementById("fonction").value || "Fonction";
+    const pays = document.getElementById("pays").value;
+    const email = document.getElementById("email").value || "email@xvar.ma";
+    const numero = document.getElementById("numero").value || "600 000 000";
+    const numeroComplet = `${pays} ${numero}`;
+
+    return `
+<table cellpadding="0" cellspacing="0" role="presentation" style="font-family:Arial; max-width:700px;">
+<tr>
+<td style="padding:0;">
+
+    <!-- Carte principale -->
+    <table cellpadding="0" cellspacing="0" role="presentation"
+           style="width:100%; background:#ffffff; padding:22px; border-radius:14px;">
+        <tr>
+            <!-- Logo -->
+           <td style="width:150px; text-align:center; vertical-align:middle;">
+    <img src="https://github.com/Imanboukhari/signature_xvar/raw/facaf574d7af4dab92a28cc7a6824fb43b9510cc/logo.png"
+         width="95" style="display:block; margin:auto;">
+
+    <!-- PHOTO EN DESSOUS DU LOGO -->
+    <img src="https://github.com/Imanboukhari/signature_xvar/raw/7072a3da7d0327c00e7e5f8a566906ddfe0a898a/xvar.png" 
+         width="70"
+         style="display:block; margin:10px auto 0; ">
+</td>
+
+            <!-- Trait -->
+            <td style="width:1px; background:#dcdcdc;"></td>
+
+            <!-- Texte + icônes -->
+            <td style="padding-left:25px; vertical-align:top; position:relative;">
+
+                <!-- Icônes en haut à droite avec liens -->
+               <div style="text-align:right; margin-bottom:8px; font-size:0;">
+    <a href="https://www.xvar.ma" target="_blank" style="display:inline-block;">
+        <img src="https://github.com/Imanboukhari/signature_xvar/raw/86780086d14974452bfff48f1c25eaaccecaa846/monde.png">
+    </a><a href="https://www.instagram.com/xvar.maroc/" target="_blank" style="display:inline-block; margin-left:6px;">
+        <img src="https://github.com/Imanboukhari/signature_xvar/raw/facaf574d7af4dab92a28cc7a6824fb43b9510cc/instagram.png">
+    </a><a href="https://web.facebook.com/profile.php?id=61579889121205" target="_blank" style="display:inline-block; margin-left:6px;">
+        <img src="https://github.com/Imanboukhari/signature_xvar/raw/facaf574d7af4dab92a28cc7a6824fb43b9510cc/facebook.png">
+    </a><a href="https://www.linkedin.com/company/xvar-maroc/" target="_blank" style="display:inline-block; margin-left:6px;">
+        <img src="https://github.com/Imanboukhari/signature_xvar/raw/facaf574d7af4dab92a28cc7a6824fb43b9510cc/linkedin.png">
+    </a>
+</div>
+
+
+                <!-- Nom + Fonction -->
+                <div style="font-size:30px; font-weight:700; color:#0D1C2A;">${prenom} ${nom}</div>
+                <div style="font-size:15px; color:#444; margin-top:4px; margin-bottom:12px;">${fonction}</div>
+
+                <!-- Barre noire en bas -->
+               <!-- Barre noire en bas -->
+<!-- Barre noire en bas alignée à droite -->
+<div style="width:100%; text-align:right; margin-top:4px;">
+<!-- Barre noire complètement à droite -->
+<table cellpadding="0" cellspacing="0" role="presentation" style="width:100%; margin-top:4px;">
+    <tr>
+        <td style="text-align:right; padding:0;">
+
+<table cellpadding="0" cellspacing="0" role="presentation" style="width:auto; display:inline-block; margin:0;">
+                <tr>
+                    <td style="
+                        background:#0D1C2A;
+                        color:#fff;
+                        padding:10px 16px;
+                        border-radius:6px;
+                        font-size:10px;
+                        margin:0;
+                    ">
+                        <table cellpadding="0" cellspacing="0" role="presentation" width="100%" style="color:#fff;">
+                            <tr>
+                                <td style="white-space:nowrap; padding-right:6px; vertical-align:middle; font-size:10px;">
+                                    <img src="https://github.com/Imanboukhari/signature_xvar/raw/2c178445837674d200a65ba6b87c97160137d71e/loc.png" style="vertical-align:middle; margin-right:2px; width:10px;">
+                                    Casablanca, Maroc
+                                </td>
+                                <td style="white-space:nowrap; padding-right:6px; vertical-align:middle; font-size:10px;">
+                                    <img src="https://github.com/Imanboukhari/signature_xvar/raw/2c178445837674d200a65ba6b87c97160137d71e/appel.png" style="vertical-align:middle; margin-right:2px; width:10px;">
+                                    ${numeroComplet}
+                                </td>
+                                <td style="white-space:nowrap; padding-right:6px; vertical-align:middle; font-size:10px;">
+    <img src="https://github.com/Imanboukhari/signature_xvar/raw/8f78a2da9303cbdc60b7dd8fab714e8af7c0ac21/mail.png"
+         style="vertical-align:middle; margin-right:2px; width:10px;">
+    ${email}
+</td>
+
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+</div>
+
+
+
+
+            </td>
+        </tr>
+    </table>
+
+</td>
+</tr>
+</table>`;
+}
+
+/* Générer signature */
+function generateSignature() {
+    document.getElementById("signaturePreview").innerHTML = signatureHTML();
+    document.getElementById("signatureSection").style.display = "block";
+    document.getElementById("signatureSection").scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+/* Copier signature */
+function copySignature() {
+    const node = document.getElementById("signaturePreview");
+    if (!node) return;
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    try {
+      document.execCommand('copy');
+      sel.removeAllRanges();
+      alert('Signature copiée ! Colle-la dans Gmail.');
+    } catch (e) {
+      alert('Impossible de copier automatiquement. Sélectionne puis copie manuellement.');
+    }
+}
+</script>
+
+</body>
+</html>
