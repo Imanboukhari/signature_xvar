@@ -41,6 +41,9 @@
 
       <label>Fonction :</label>
       <input id="fonction" type="text" placeholder="Fonction...">
+      <label>Adresse e-mail :</label>
+<input id="email" type="email" placeholder="exemple@xvar.ma">
+
      <label>Numéro :</label>
 <div style="display:flex; gap:8px;">
   <select id="pays" style="padding:12px; border-radius:8px; border:1px solid #ccc;">
@@ -84,6 +87,7 @@ function signatureHTML() {
     const nom = document.getElementById("nom").value || "Nom";
     const fonction = document.getElementById("fonction").value || "Fonction";
     const pays = document.getElementById("pays").value;
+    const email = document.getElementById("email").value || "email@xvar.ma";
     const numero = document.getElementById("numero").value || "600 000 000";
     const numeroComplet = `${pays} ${numero}`;
 
@@ -140,7 +144,7 @@ function signatureHTML() {
     <tr>
         <td style="text-align:right; padding:0;">
 
-            <table cellpadding="0" cellspacing="0" role="presentation" style="width:250px; display:inline-block; margin:0;">
+<table cellpadding="0" cellspacing="0" role="presentation" style="width:auto; display:inline-block; margin:0;">
                 <tr>
                     <td style="
                         background:#0D1C2A;
@@ -160,6 +164,12 @@ function signatureHTML() {
                                     <img src="https://github.com/Imanboukhari/signature_xvar/raw/2c178445837674d200a65ba6b87c97160137d71e/appel.png" style="vertical-align:middle; margin-right:2px; width:10px;">
                                     ${numeroComplet}
                                 </td>
+                                <td style="white-space:nowrap; padding-right:6px; vertical-align:middle; font-size:10px;">
+    <img src="https://github.com/Imanboukhari/signature_xvar/raw/8f78a2da9303cbdc60b7dd8fab714e8af7c0ac21/mail.png"
+         style="vertical-align:middle; margin-right:2px; width:10px;">
+    ${email}
+</td>
+
                             </tr>
                         </table>
                     </td>
