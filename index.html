@@ -80,7 +80,7 @@ button:hover { transform: translateY(-2px); }
           <option value="+212" selected>🇲🇦 (+212)</option>
           <option value="+33">🇫🇷 (+33)</option>
         </select>
-        <input id="numero" type="tel" placeholder="600 000 000" style="flex:1;">
+        <input id="numero" type="tel" placeholder="600000000" style="flex:1;">
       </div>
 
       <button onclick="generateSignature()">Générer la signature</button>
@@ -114,7 +114,7 @@ function signatureHTML() {
     const fonction = document.getElementById("fonction").value || "Fonction";
     const email = document.getElementById("email").value || "email@xvar.ma";
     const pays = document.getElementById("pays").value;
-    const numero = document.getElementById("numero").value || "600 000 000";
+    const numero = document.getElementById("numero").value || "600000000";
     const numeroComplet = `${pays} ${numero}`;
 
     return `
@@ -138,12 +138,31 @@ function signatureHTML() {
 
 <td style="padding-left:18px; vertical-align:top;">
 
-    <div style="text-align:right; margin-bottom:4px; font-size:0;">
-        <a href="https://www.xvar.ma"><img src="https://github.com/Imanboukhari/signature_xvar/raw/86780086d14974452bfff48f1c25eaaccecaa846/monde.png" width="13"></a>
-        <a href="https://www.instagram.com/xvar.maroc/" style="margin-left:4px;"><img src="https://github.com/Imanboukhari/signature_xvar/raw/facaf574d7af4dab92a28cc7a6824fb43b9510cc/instagram.png" width="13"></a>
-        <a href="https://web.facebook.com/profile.php?id=61579889121205" style="margin-left:4px;"><img src="https://github.com/Imanboukhari/signature_xvar/raw/facaf574d7af4dab92a28cc7a6824fb43b9510cc/facebook.png" width="13"></a>
-        <a href="https://www.linkedin.com/company/xvar-maroc/" style="margin-left:4px;"><img src="https://github.com/Imanboukhari/signature_xvar/raw/facaf574d7af4dab92a28cc7a6824fb43b9510cc/linkedin.png" width="13"></a>
-    </div>
+<table cellpadding="0" cellspacing="0" role="presentation" 
+    style="width:100%; margin-bottom:4px; table-layout:auto;">
+<tr>
+    <td style="text-align:right; white-space:nowrap; padding-right:0; font-size:0;">
+
+        <a href="https://www.xvar.ma" style="text-decoration:none; border:none; outline:none;">
+            <img src="https://github.com/Imanboukhari/signature_xvar/raw/0ffb3e7cdd128645d4de96283ec8945936f7d4df/monde.png"
+                style="height:16px; vertical-align:middle; margin-left:4px; display:inline-block;">
+        </a><a href="https://www.instagram.com/xvar.maroc/" style="text-decoration:none; border:none; outline:none;">
+            <img src="https://github.com/Imanboukhari/signature_xvar/raw/0ffb3e7cdd128645d4de96283ec8945936f7d4df/instagram.png"
+                style="height:16px; vertical-align:middle; margin-left:4px; display:inline-block;">
+        </a><a href="https://web.facebook.com/profile.php?id=61579889121205" style="text-decoration:none; border:none; outline:none;">
+            <img src="https://github.com/Imanboukhari/signature_xvar/raw/0ffb3e7cdd128645d4de96283ec8945936f7d4df/facebook.png"
+                style="height:16px; vertical-align:middle; margin-left:4px; display:inline-block;">
+        </a><a href="https://www.linkedin.com/company/xvar-maroc/" style="text-decoration:none; border:none; outline:none;">
+            <img src="https://github.com/Imanboukhari/signature_xvar/raw/0ffb3e7cdd128645d4de96283ec8945936f7d4df/linkedin.png"
+                style="height:16px; vertical-align:middle; margin-left:4px; display:inline-block;">
+        </a>
+
+    </td>
+</tr>
+</table>
+
+
+
 
     <div style="font-size:22px; font-weight:700; color:#0D1C2A;">${prenom} ${nom}</div>
     <div style="font-size:13px; color:#444; margin-top:2px; margin-bottom:10px;">${fonction}</div>
@@ -151,7 +170,7 @@ function signatureHTML() {
     <div style="text-align:right; margin-top:4px;">
         <table cellpadding="0" cellspacing="0" role="presentation" style="display:inline-block;">
             <tr>
-                <td style="background:#0D1C2A; color:#fff; padding:6px 10px; border-radius:5px; font-size:9px;">
+                <td style="background:#0D1C2A; color:#fff; padding:6px 10px; border-radius:5px; font-size:8px;">
 
                     <table cellpadding="0" cellspacing="0">
                         <tr>
