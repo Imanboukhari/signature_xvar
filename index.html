@@ -137,51 +137,49 @@ function signatureHTML() {
 <td style="width:1px; background:#dcdcdc;"></td>
 
 <td style="padding-left:18px; vertical-align:top;">
-
-<table cellpadding="0" cellspacing="0" role="presentation" 
-    style="width:100%; margin-bottom:4px; table-layout:auto;">
+<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%; margin-bottom:6px;">
 <tr>
-    <td style="text-align:right; white-space:nowrap; padding-right:0; font-size:0;">
 
-    <a href="https://www.xvar.ma" style="text-decoration:none; border:none; outline:none;">
-    <img src="https://github.com/Imanboukhari/signature_xvar/raw/0ffb3e7cdd128645d4de96283ec8945936f7d4df/monde.png"
-        style="height:12px; vertical-align:middle; margin-left:4px; display:inline-block;">
-</a><a href="https://www.instagram.com/xvar.maroc/" style="text-decoration:none; border:none; outline:none;">
-    <img src="https://github.com/Imanboukhari/signature_xvar/raw/0ffb3e7cdd128645d4de96283ec8945936f7d4df/instagram.png"
-        style="height:12px; vertical-align:middle; margin-left:4px; display:inline-block;">
-</a><a href="https://web.facebook.com/profile.php?id=61579889121205" style="text-decoration:none; border:none; outline:none;">
-    <img src="https://github.com/Imanboukhari/signature_xvar/raw/0ffb3e7cdd128645d4de96283ec8945936f7d4df/facebook.png"
-        style="height:12px; vertical-align:middle; margin-left:4px; display:inline-block;">
-</a><a href="https://www.linkedin.com/company/xvar-maroc/" style="text-decoration:none; border:none; outline:none;">
-    <img src="https://github.com/Imanboukhari/signature_xvar/raw/0ffb3e7cdd128645d4de96283ec8945936f7d4df/linkedin.png"
-        style="height:12px; vertical-align:middle; margin-left:4px; display:inline-block;">
-</a>
-
-
+    <!-- COLONNE GAUCHE : PRENOM NOM -->
+    <td style="vertical-align:middle; width:1%; white-space:nowrap;">
+        <div style="font-size:17px; font-weight:700; color:#0D1C2A;">
+            ${prenom} ${nom}
+        </div>
     </td>
+
+    <!-- ESPACE FLEXIBLE QUI S'ÉTIRE -->
+    <td style="width:100%;"></td>
+
+    <!-- COLONNE DROITE : ICÔNES -->
+    <td style="text-align:right; white-space:nowrap; padding-right:0; font-size:0;"> <a href="https://www.xvar.ma" style="text-decoration:none; border:none; outline:none;"> <img src="https://github.com/Imanboukhari/signature_xvar/raw/0ffb3e7cdd128645d4de96283ec8945936f7d4df/monde.png" style="height:12px; vertical-align:middle; margin-left:4px; display:inline-block;"> </a><a href="https://www.instagram.com/xvar.maroc/" style="text-decoration:none; border:none; outline:none;"> <img src="https://github.com/Imanboukhari/signature_xvar/raw/0ffb3e7cdd128645d4de96283ec8945936f7d4df/instagram.png" style="height:12px; vertical-align:middle; margin-left:4px; display:inline-block;"> </a><a href="https://web.facebook.com/profile.php?id=61579889121205" style="text-decoration:none; border:none; outline:none;"> <img src="https://github.com/Imanboukhari/signature_xvar/raw/0ffb3e7cdd128645d4de96283ec8945936f7d4df/facebook.png" style="height:12px; vertical-align:middle; margin-left:4px; display:inline-block;"> </a><a href="https://www.linkedin.com/company/xvar-maroc/" style="text-decoration:none; border:none; outline:none;"> <img src="https://github.com/Imanboukhari/signature_xvar/raw/0ffb3e7cdd128645d4de96283ec8945936f7d4df/linkedin.png" style="height:12px; vertical-align:middle; margin-left:4px; display:inline-block;"> </a> </td>
+
 </tr>
 </table>
 
-
-
-
-    <div style="font-size:17px; font-weight:700; color:#0D1C2A;">${prenom} ${nom}</div>
     <div style="font-size:10px; color:#444; margin-top:2px; margin-bottom:10px;">${fonction}</div>
 
-     <div style="font-size:7px; color:#000; display:flex; justify-content:center; gap:12px; align-items:center; margin-bottom:8px;">
-        <span style="white-space:nowrap;">
-            <img src="https://github.com/Imanboukhari/signature_xvar/raw/95bd3fa0522074bd8b8e09eaa25a2bb29b8a0312/loc.png" width="6" style="vertical-align:middle; margin-right:2px;">
-            Casablanca, Maroc
-        </span>
-        <span style="white-space:nowrap;">
-            <img src="https://github.com/Imanboukhari/signature_xvar/raw/6184c53c5ac5949f1364a37c783dc51374ee733a/appel.png" width="6" style="vertical-align:middle; margin-right:2px;">
-            ${numeroComplet}
-        </span>
-        <span style="white-space:nowrap;">
-            <img src="https://github.com/Imanboukhari/signature_xvar/raw/95bd3fa0522074bd8b8e09eaa25a2bb29b8a0312/mail.png" width="6" style="vertical-align:middle; margin-right:2px;">
-            ${email}
-        </span>
-    </div>
+    <div style="font-size:7px; color:#000; display:flex; align-items:center; margin-bottom:8px;">
+    
+    <span style="white-space:nowrap; margin-right:12px;">
+        <img src="https://github.com/Imanboukhari/signature_xvar/raw/95bd3fa0522074bd8b8e09eaa25a2bb29b8a0312/loc.png"
+             width="6" style="vertical-align:middle; margin-right:2px;">
+        Casablanca, Maroc
+    </span>
+
+    <span style="white-space:nowrap; margin-right:12px;">
+        <img src="https://github.com/Imanboukhari/signature_xvar/raw/6184c53c5ac5949f1364a37c783dc51374ee733a/appel.png"
+             width="6" style="vertical-align:middle; margin-right:2px;">
+        ${numeroComplet}
+    </span>
+
+    <span style="white-space:nowrap;">
+        <img src="https://github.com/Imanboukhari/signature_xvar/raw/95bd3fa0522074bd8b8e09eaa25a2bb29b8a0312/mail.png"
+             width="6" style="vertical-align:middle; margin-right:2px;">
+        ${email}
+    </span>
+
+</div>
+
 
 </td>
 </tr>
